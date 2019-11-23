@@ -33,7 +33,7 @@ func (h SupportHandler) GetChatHandler(c echo.Context) error {
 	if err != nil {
 		return h.Error(c, err)
 	}
-	message, err := h.usecase.GetLastMessage(userId)
+	message, err := h.usecase.GetAllMessages(userId)
 	if err != nil {
 		return h.Error(c, err)
 	}
