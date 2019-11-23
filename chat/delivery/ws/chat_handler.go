@@ -35,7 +35,7 @@ func (h ChatHandler) ChatStreamHandler(c echo.Context) error {
 
 	userID, err := h.getUserID(c)
 	if err != nil {
-		conn.WriteJSON(err)
+		conn.WriteJSON(err.Error())
 		return nil
 	}
 	anotherUserID, _ := strconv.Atoi(c.Param("anotherUserID"))
@@ -78,7 +78,7 @@ func (h ChatHandler) processRequest(userID, anotherUserID int, c *websocket.Conn
 	message := string(requestBytes)
 	err = h.usecase.SendMessage(userID, anotherUserID, message)
 	if err != nil {
-		c.WriteJSON(err)
+		c.WriteJSON(err.Error())
 	}
 	return nil
 }
