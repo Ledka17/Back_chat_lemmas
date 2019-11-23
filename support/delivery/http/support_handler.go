@@ -1,10 +1,12 @@
 package http
 
 import (
+	"fmt"
 	delivery "github.com/Ledka17/Back_chat_lemmas/delivery/http"
 	"github.com/Ledka17/Back_chat_lemmas/model"
 	"github.com/Ledka17/Back_chat_lemmas/support"
 	"github.com/labstack/echo"
+	"strconv"
 )
 
 type SupportHandler struct {
@@ -15,12 +17,27 @@ type SupportHandler struct {
 func NewSupportHandler(e *echo.Echo, usecase support.Usecase) SupportHandler {
 	handler := SupportHandler{usecase: usecase}
 	e.GET(delivery.ApiV1SupportGetChats, handler.GetChatsHandler)
+	e.GET(delivery.ApiV1SupportGetChat, handler.GetChatHandler)
 	return handler
 }
 
 type chat struct {
 	User        model.User    `json:"user"`
 	LastMessage model.Message `json:"last_message"`
+}
+
+func (h SupportHandler) GetChatHandler(c echo.Context) error {
+	userIdString := c.Param("userId")
+	fmt.Printf(userIdString)
+	userId, err := strconv.Atoi(userIdString)
+	if err != nil {
+		return h.Error(c, err)
+	}
+	message, err := h.usecase.GetLastMessage(userId)
+	if err != nil {
+		return h.Error(c, err)
+	}
+	return h.OkWithBody(c, message)
 }
 
 func (h SupportHandler) GetChatsHandler(c echo.Context) error {
