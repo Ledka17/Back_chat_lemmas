@@ -1,25 +1,23 @@
 package main
 
 import (
-	"fmt"
-	userRepo "github.com/Ledka17/Back_chat_lemmas/user/repository"
 	_ "github.com/jackc/pgx/stdlib"
 	"github.com/jmoiron/sqlx"
+	"github.com/labstack/echo"
 	"log"
+	"net/http"
 	"os"
 )
 
 func main() {
-	db, err := NewDB()
-	if err != nil {
-		log.Fatal(err)
-	}
-	repo := userRepo.NewDatabaseRepository(db)
-	users, err := repo.GetAll()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(users)
+	e = echo.New()
+
+	init
+	http.Handle("/message", user.GetMessagesHandler)
+
+	log.Println("http server started on :8000")
+	port := getPort()
+	log.Fatal(http.ListenAndServe(port, nil))
 }
 
 func NewDB() (*sqlx.DB, error) {
