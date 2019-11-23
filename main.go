@@ -1,6 +1,9 @@
 package main
 
 import (
+	chatDelivery "github.com/Ledka17/Back_chat_lemmas/chat/delivery/ws"
+	chatRepo "github.com/Ledka17/Back_chat_lemmas/chat/repository"
+	chatUsecase "github.com/Ledka17/Back_chat_lemmas/chat/usecase"
 	supportDelivery "github.com/Ledka17/Back_chat_lemmas/support/delivery/http"
 	supportRepo "github.com/Ledka17/Back_chat_lemmas/support/repository"
 	supportUsecase "github.com/Ledka17/Back_chat_lemmas/support/usecase"
@@ -22,6 +25,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	chatDelivery.NewChatHandler(e, chatUsecase.NewChatUsecase(chatRepo.NewDatabaseRepository(db)))
 	userDelivery.NewUserHandler(e, userUsecase.NewUserUsecase(userRepo.NewDatabaseRepository(db)))
 	supportDelivery.NewSupportHandler(e, supportUsecase.NewSupportUsecase(supportRepo.NewDatabaseRepository(db)))
 

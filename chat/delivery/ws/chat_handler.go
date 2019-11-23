@@ -35,7 +35,7 @@ func (h ChatHandler) ChatStreamHandler(c echo.Context) error {
 
 	userID, err := h.getUserID(c)
 	if err != nil {
-		conn.WriteJSON(err)
+		conn.WriteJSON(err.Error())
 		return nil
 	}
 	anotherUserID, _ := strconv.Atoi(c.Param("anotherUserID"))
