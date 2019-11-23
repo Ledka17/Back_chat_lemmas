@@ -20,11 +20,11 @@ func NewDatabaseRepository(db *sqlx.DB) user.Repository {
 	}
 }
 
-func (r *databaseRepository) GetUserMessages(userID int) ([]model.Message, error) {
+func (r *databaseRepository) GetMessagesFromOrToUser(userID int) ([]model.Message, error) {
 	var messages []model.Message
 	err := r.db.Select(
 		&messages,
-		`select * from "`+messageTable+`" where user_from_id=$1 or user_to_id=$1 order by time`,
+		`select * from "`+messageTable+`" where user_from_id=$1 or user_to_id=$1 order by sent_date`,
 		userID,
 	)
 	if err != nil {

@@ -28,6 +28,9 @@ func (h *UserHandler) GetUserMessagesHandler(c echo.Context) error {
 		return h.Error(c, err)
 	}
 	resp, err := h.usecase.GetUserMessages(userId)
+	if err != nil {
+		return h.Error(c, err)
+	}
 	return h.OkWithBody(c, resp)
 }
 

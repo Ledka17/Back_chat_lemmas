@@ -20,3 +20,7 @@ func (u SupportUsecase) GetUsers() ([]model.User, error) {
 func (u SupportUsecase) GetLastMessage(userID int) (*model.Message, error) {
 	return u.repository.GetLastMessage(userID)
 }
+
+func (u SupportUsecase) GetAllMessages(userID int) (*model.Message, error) {
+	return nil, nil
+}

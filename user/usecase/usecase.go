@@ -14,5 +14,5 @@ func NewUserUsecase(repository user.Repository) user.Usecase {
 }
 
 func (u *userUsecase) GetUserMessages(userID int) ([]model.Message, error) {
-	return u.repository.GetUserMessages(userID)
+	return u.repository.GetMessagesFromOrToUser(userID)
 }

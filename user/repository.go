@@ -5,5 +5,5 @@ import (
 )
 
 type Repository interface {
-	GetUserMessages(userID int) ([]model.Message, error)
+	GetMessagesFromOrToUser(userID int) ([]model.Message, error)
 }
