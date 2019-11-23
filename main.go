@@ -14,11 +14,14 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
 	"log"
+	"net/http"
 	"os"
+	"strings"
 )
 
 func main() {
 	e := echo.New()
+	e.Use(corsMiddleware)
 
 	db, err := NewDB()
 	if err != nil {
@@ -52,4 +55,24 @@ func NewDB() (*sqlx.DB, error) {
 		return nil, err
 	}
 	return db, nil
+}
+
+func corsMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		origin := c.Request().Header.Get(echo.HeaderOrigin)
+		allowOrigin := origin
+		c.Response().Header().Set(echo.HeaderAccessControlAllowOrigin, allowOrigin)
+
+		allowedMethods := []string{http.MethodGet, http.MethodHead, http.MethodPost, http.MethodPut, http.MethodOptions, http.MethodDelete}
+		c.Response().Header().Set(echo.HeaderAccessControlAllowMethods, strings.Join(allowedMethods, ","))
+		c.Response().Header().Set(echo.HeaderAccessControlAllowCredentials, "true")
+
+		allowedHeaders := []string{"X-Requested-With", "Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"}
+		c.Response().Header().Set(echo.HeaderAccessControlAllowHeaders, strings.Join(allowedHeaders, ","))
+
+		if c.Request().Method == http.MethodOptions {
+			return c.NoContent(http.StatusNoContent)
+		}
+		return next(c)
+	}
 }
