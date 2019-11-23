@@ -35,6 +35,7 @@ func (h *UserHandler) RegisterHandler(c echo.Context) error {
 		Name:    delivery.SessionIDCookieName,
 		Value:   strconv.Itoa(userID),
 		Expires: time.Now().Add(delivery.SessionIDCookieExpire),
+		Path:    "/",
 	})
 	return h.Ok(c)
 }
