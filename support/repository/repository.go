@@ -34,7 +34,7 @@ func (r *databaseRepository) GetLastMessage(userID int) (*model.Message, error) 
 	lastMessage := model.Message{}
 	err := r.db.Get(
 		&lastMessage,
-		`select * from "`+messageTable+`" where user_from_id=$1 or user_to_id=$1 order by sent_date`,
+		`select * from "`+messageTable+`" where user_from_id=$1 or user_to_id=$1 order by sent_date desc`,
 		userID,
 	)
 	if err == sql.ErrNoRows {
@@ -44,4 +44,17 @@ func (r *databaseRepository) GetLastMessage(userID int) (*model.Message, error) 
 		return nil, err
 	}
 	return &lastMessage, nil
+}
+
+func (r *databaseRepository) GetAllMessages(userID int) ([]model.Message, error) {
+	var messages []model.Message
+	err := r.db.Select(
+		&messages,
+		`select * from "`+messageTable+`" where user_from_id=$1 or user_to_id=$1 order by sent_date desc`,
+		userID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return messages, nil
 }

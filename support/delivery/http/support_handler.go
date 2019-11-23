@@ -22,8 +22,8 @@ func NewSupportHandler(e *echo.Echo, usecase support.Usecase) SupportHandler {
 }
 
 type chat struct {
-	User        model.User    `json:"user"`
-	LastMessage model.Message `json:"last_message"`
+	User        model.User     `json:"user"`
+	LastMessage *model.Message `json:"last_message"`
 }
 
 func (h SupportHandler) GetChatHandler(c echo.Context) error {
@@ -33,11 +33,11 @@ func (h SupportHandler) GetChatHandler(c echo.Context) error {
 	if err != nil {
 		return h.Error(c, err)
 	}
-	message, err := h.usecase.GetAllMessages(userId)
+	messages, err := h.usecase.GetAllMessages(userId)
 	if err != nil {
 		return h.Error(c, err)
 	}
-	return h.OkWithBody(c, message)
+	return h.OkWithBody(c, messages)
 }
 
 func (h SupportHandler) GetChatsHandler(c echo.Context) error {
@@ -47,14 +47,20 @@ func (h SupportHandler) GetChatsHandler(c echo.Context) error {
 	}
 	chats := make([]chat, 0, len(users))
 	for _, user := range users {
+		if user.IsSupport {
+			continue
+		}
 		lastMessage, err := h.usecase.GetLastMessage(user.ID)
 		if err != nil {
 			return nil
 		}
-		chats = append(chats, chat{
-			User:        user,
-			LastMessage: *lastMessage,
-		})
+		userChat := chat{
+			User: user,
+		}
+		if lastMessage != nil {
+			userChat.LastMessage = lastMessage
+		}
+		chats = append(chats, userChat)
 	}
 	return h.OkWithBody(c, chats)
 }
