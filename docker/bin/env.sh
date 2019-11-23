@@ -3,6 +3,6 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $(dirname ${SCRIPT_DIR}/../..)
 
-PROJECT_NAME=lemmas
+PROJECT_NAME=lemmas_chat
 DOCKER_FILE="-f docker-compose.yml"
 COMPOSE="docker-compose -p ${PROJECT_NAME} ${DOCKER_FILE}"
