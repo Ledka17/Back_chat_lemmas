@@ -1,11 +1,12 @@
 package main
 
 import (
-	"log"
-	"net/http"
-	"os"
 	user "github.com/Ledka17/Back_chat_lemmas/delivery/ws"
+	_ "github.com/jackc/pgx/stdlib"
+	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
+	"log"
+	"os"
 )
 
 func main() {
@@ -19,10 +20,14 @@ func main() {
 	log.Fatal(http.ListenAndServe(port, nil))
 }
 
-func getPort() string {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8000"
+func NewDB() (*sqlx.DB, error) {
+	db, err := sqlx.Connect("pgx", os.Getenv("POSTGRES_DSN"))
+	if err != nil {
+		return nil, err
 	}
-	return port
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
+	return db, nil
 }

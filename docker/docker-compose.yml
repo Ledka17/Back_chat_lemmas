@@ -1,0 +1,22 @@
+version: '2.4'
+services:
+  web:
+    build: images/web
+    env_file: ../.env
+    working_dir: /home/app
+    depends_on:
+      - postgres
+    volumes:
+      - ../.:/home/app
+    ports:
+      - 8090:8090
+
+  postgres:
+    image: postgres:11.5
+    restart: always
+    environment:
+      POSTGRES_DB: chat
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: temppassword
+    ports:
+      - 5432:5432
