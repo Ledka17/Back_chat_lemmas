@@ -3,18 +3,14 @@ package http
 import "time"
 
 const (
-	ApiPV1 = "api/v1"
+	ApiV1UserRegister    = "api/v1/chat/user/register"
+	ApiV1UserUpdate      = "api/v1/chat/user/update"
+	ApiV1UserGetMessages = "api/v1/chat/user/messages"
 
-	ApiV1Chat = ApiPV1 + "/chat"
+	ApiV1SupportGetChats = "api/v1/chat/support/chats"
+	ApiV1SupportGetChat  = "api/v1/chat/support/chats/:userId"
 
-	ApiV1User    = ApiV1Chat + "/user"
-	ApiV1Support = ApiV1Chat + "/support"
-
-	ApiV1UserGetMessages = ApiV1User + "/messages"
-	ApiV1SupportGetChats = ApiV1Support + "/chats"
-	ApiV1SupportGetChat  = ApiV1Support + "/chats/:userId"
-
-	ApiV1ChatStream = ApiV1Chat + "/stream/:anotherUserID"
+	ApiV1ChatStream = "api/v1/chat/stream/:anotherUserID"
 )
 
 const (

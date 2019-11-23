@@ -8,6 +8,7 @@ import (
 
 const (
 	messageTable = "message"
+	userTable    = "user"
 )
 
 type databaseRepository struct {
@@ -31,4 +32,31 @@ func (r *databaseRepository) GetMessagesFromOrToUser(userID int) ([]model.Messag
 		return nil, err
 	}
 	return messages, nil
+}
+
+func (r *databaseRepository) CreateUser(name string) (userID int, err error) {
+	_, err = r.db.Exec(
+		`insert into "`+userTable+`" (name) values ($1)`,
+		name,
+	)
+	if err != nil {
+		return 0, err
+	}
+	var u model.User
+	err = r.db.Get(
+		&u,
+		`select * from "`+userTable+`" order by id desc`,
+	)
+	if err != nil {
+		return 0, err
+	}
+	return u.ID, nil
+}
+
+func (r *databaseRepository) UpdateUser(userID int, name, email string) error {
+	_, err := r.db.Exec(
+		`update "`+userTable+`" set name=$1, email=$2 where id=$3`,
+		name, email, userID,
+	)
+	return err
 }
