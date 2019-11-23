@@ -8,7 +8,7 @@ const (
 	ApiV1Chat = ApiPV1 + "/chat"
 
 	ApiV1User = ApiV1Chat + "/user"
-	ApiV1Supporter = ApiV1Chat + "/supporter"
+	ApiV1Supporter = ApiV1Chat + "/support"
 
 	ApiV1UserGetMessages = ApiV1User + "/messages"
 	APiV1UserSendMessage = ApiV1User + "/send"
