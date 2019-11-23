@@ -12,7 +12,10 @@ type chatUsecase struct {
 }
 
 func NewChatUsecase(repository chat.Repository) chat.Usecase {
-	return &chatUsecase{repository: repository}
+	return &chatUsecase{
+		repository: repository,
+		listeners:  map[int]chan model.Message{},
+	}
 }
 
 func (u *chatUsecase) SendMessage(userFromID, userToID int, text string) error {
