@@ -62,5 +62,7 @@ func (h SupportHandler) GetChatsHandler(c echo.Context) error {
 		}
 		chats = append(chats, userChat)
 	}
-	return h.OkWithBody(c, chats)
+	return h.OkWithBody(c, map[string]interface{}{
+		"chats": chats,
+	})
 }
