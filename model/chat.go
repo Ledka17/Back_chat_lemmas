@@ -14,5 +14,5 @@ type Message struct {
 	UserFromID int       `json:"user_from_id" db:"user_from_id"`
 	UserToID   int       `json:"user_to_id" db:"user_to_id"`
 	Text       string    `json:"text" db:"text"`
-	Time       time.Time `json:"time" db:"time"`
+	SentDate   time.Time `json:"time" db:"sent_date"`
 }
