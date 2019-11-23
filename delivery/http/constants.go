@@ -13,6 +13,8 @@ const (
 	ApiV1UserGetMessages = ApiV1User + "/messages"
 	ApiV1SupportGetChats = ApiV1Support + "/chats"
 	ApiV1SupportGetChat  = ApiV1Support + "/chats/:userId"
+
+	ApiV1ChatStream = ApiV1Chat + "/stream/:anotherUserID"
 )
 
 const (
