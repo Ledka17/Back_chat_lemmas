@@ -7,13 +7,13 @@ const (
 
 	ApiV1Chat = ApiPV1 + "/chat"
 
-	ApiV1User      = ApiV1Chat + "/user"
-	ApiV1Supporter = ApiV1Chat + "/support"
+	ApiV1User    = ApiV1Chat + "/user"
+	ApiV1Support = ApiV1Chat + "/support"
 
-	ApiV1UserGetMessages   = ApiV1User + "/messages"
-	APiV1UserSendMessage   = ApiV1User + "/send"
-	ApiV1SupporterGetChats = ApiV1Supporter + "/chats"
-	ApiV1SupporterGetChat  = ApiV1Supporter + "/chats/{id}"
+	ApiV1UserGetMessages = ApiV1User + "/messages"
+	APiV1UserSendMessage = ApiV1User + "/send"
+	ApiV1SupportGetChats = ApiV1Support + "/chats"
+	ApiV1SupportGetChat  = ApiV1Support + "/chats/{id}"
 )
 
 const (
