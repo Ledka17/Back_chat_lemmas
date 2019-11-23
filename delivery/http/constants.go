@@ -11,9 +11,8 @@ const (
 	ApiV1Support = ApiV1Chat + "/support"
 
 	ApiV1UserGetMessages = ApiV1User + "/messages"
-	APiV1UserSendMessage = ApiV1User + "/send"
 	ApiV1SupportGetChats = ApiV1Support + "/chats"
-	ApiV1SupportGetChat  = ApiV1Support + "/chats/{id}"
+	ApiV1SupportGetChat  = ApiV1Support + "/chats/:userId"
 )
 
 const (

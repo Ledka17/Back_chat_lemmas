@@ -33,7 +33,7 @@ func main() {
 func getPort() string {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8000"
+		port = "8090"
 	}
 	return port
 }
