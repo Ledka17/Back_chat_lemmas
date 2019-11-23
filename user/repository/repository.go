@@ -58,5 +58,9 @@ func (r *databaseRepository) GetUserMessages(userID int) ([]model.Message, error
 }
 
 func (r *databaseRepository) CreateMessage(userFromID, userToID int, text string, time time.Time) error {
-	return nil
+	_, err := r.db.Exec(
+		`insert into "`+messageTable+`" (user_from_id, user_to_id, text, sent_date) values ($1, $2, $3, $4)`,
+		userFromID, userToID, text, time.Unix(),
+	)
+	return err
 }
