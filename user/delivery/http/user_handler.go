@@ -12,7 +12,7 @@ type UserHandler struct {
 	usecase user.Usecase
 }
 
-func NewUserHandler(usecase user.Usecase, e *echo.Echo) UserHandler {
+func NewUserHandler(e *echo.Echo, usecase user.Usecase) UserHandler {
 	handler := UserHandler{usecase: usecase}
 	e.GET(delivery.ApiV1UserGetMessages, handler.GetUserMessagesHandler)
 	return handler

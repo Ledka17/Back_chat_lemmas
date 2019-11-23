@@ -1,9 +1,12 @@
 package main
 
 import (
+	supportDelivery "github.com/Ledka17/Back_chat_lemmas/support/delivery/http"
+	supportRepo "github.com/Ledka17/Back_chat_lemmas/support/repository"
+	supportUsecase "github.com/Ledka17/Back_chat_lemmas/support/usecase"
 	userDelivery "github.com/Ledka17/Back_chat_lemmas/user/delivery/http"
-	"github.com/Ledka17/Back_chat_lemmas/user/repository"
-	"github.com/Ledka17/Back_chat_lemmas/user/usecase"
+	userRepo "github.com/Ledka17/Back_chat_lemmas/user/repository"
+	userUsecase "github.com/Ledka17/Back_chat_lemmas/user/usecase"
 	_ "github.com/jackc/pgx/stdlib"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
@@ -18,8 +21,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	repo := repository.NewDatabaseRepository(db)
-	userDelivery.NewUserHandler(usecase.NewUserUsecase(repo), e)
+
+	userDelivery.NewUserHandler(e, userUsecase.NewUserUsecase(userRepo.NewDatabaseRepository(db)))
+	supportDelivery.NewSupportHandler(e, supportUsecase.NewSupportUsecase(supportRepo.NewDatabaseRepository(db)))
 
 	log.Println("http server started on :8000")
 	port := getPort()

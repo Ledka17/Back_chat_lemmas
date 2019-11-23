@@ -5,10 +5,10 @@ import (
 	"github.com/Ledka17/Back_chat_lemmas/model"
 	"github.com/Ledka17/Back_chat_lemmas/support"
 	"github.com/labstack/echo"
-	"net/http"
 )
 
 type SupportHandler struct {
+	delivery.Handler
 	usecase support.Usecase
 }
 
@@ -26,7 +26,7 @@ type chat struct {
 func (h SupportHandler) GetChatsHandler(c echo.Context) error {
 	users, err := h.usecase.GetUsers()
 	if err != nil {
-		return err
+		return h.Error(c, err)
 	}
 	chats := make([]chat, 0, len(users))
 	for _, user := range users {
@@ -39,5 +39,5 @@ func (h SupportHandler) GetChatsHandler(c echo.Context) error {
 			LastMessage: *lastMessage,
 		})
 	}
-	return c.JSON(http.StatusOK, chats)
+	return h.OkWithBody(c, chats)
 }
