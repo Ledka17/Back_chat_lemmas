@@ -1,21 +1,35 @@
 package main
 
 import (
+	"fmt"
+	userRepo "github.com/Ledka17/Back_chat_lemmas/user/repository"
+	_ "github.com/jackc/pgx/stdlib"
+	"github.com/jmoiron/sqlx"
 	"log"
-	"net/http"
 	"os"
 )
 
 func main() {
-	log.Println("http server started on :8000")
-	port := getPort()
-	log.Fatal(http.ListenAndServe(port, nil))
+	db, err := NewDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	repo := userRepo.NewDatabaseRepository(db)
+	users, err := repo.GetAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(users)
 }
 
-func getPort() string {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8000"
+func NewDB() (*sqlx.DB, error) {
+	db, err := sqlx.Connect("pgx", os.Getenv("POSTGRES_DSN"))
+	if err != nil {
+		return nil, err
 	}
-	return port
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
+	return db, nil
 }
